@@ -1,0 +1,76 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app nocodb
+  namespace: business
+spec:
+  releaseName: *app
+  interval: 15m
+  chart:
+    spec:
+      chart: kah-common-chart
+      version: 1.2.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    global:
+      nameOverride: *app
+    image:
+      repository: nocodb/nocodb
+      tag: 0.105.3
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "nginx-public"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/group: "business"
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+        hosts:
+          - host: &host "db.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: *port
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        enabled: true
+        existingClaim: nocodb-data
+        mountPath: /usr/app/data
+
+    env:
+      NC_PUBLIC_URL: "https://db.${SECRET_DOMAIN}"
+      NC_INVITE_ONLY_SIGNUP: true
+      NC_SMTP_HOST: ${SECRET_SES_SMTP_HOST}
+      NC_SMTP_FROM: "NoCoDB <${SECRET_SES_SMTP_FROM_EMAIL}>"
+      NC_SMTP_PORT: ${SECRET_SES_SMTP_PORT}
+      NC_SMTP_USERNAME: "${SECRET_SES_ACCESS_KEY}"
+      NC_SMTP_PASSWORD: "${SECRET_SES_SECRET_KEY}"
+
+    redis:
+      enabled: true
+    postgresql:
+      enabled: true
+      persistence:
+        enabled: true

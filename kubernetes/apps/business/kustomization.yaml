@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
 
   # TODO: Move these to cloud for uptime assurances
-  # - authentik
+  - authentik
   # - vaultwarden
   # - uptime-kuma
 

@@ -2,10 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - namespace.yaml
+  - ./namespace.yaml
 
   # TODO: Move these to cloud for uptime assurances
-  - authentik
+  - ./authentik/ks.yml
   # - vaultwarden
   # - uptime-kuma
 

@@ -175,15 +175,14 @@ spec:
     name: cnpg-gitlab
 
 ---
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
-metadata:
-  name: backup-gitlab
-  namespace: business
-spec:
-  cluster:
-    name: cnpg-gitlab
----
+# apiVersion: postgresql.cnpg.io/v1
+# kind: Backup
+# metadata:
+#   name: backup-gitlab
+#   namespace: business
+# spec:
+#   cluster:
+#     name: cnpg-gitlab
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

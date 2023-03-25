@@ -126,20 +126,20 @@ spec:
     size: 20Gi
     storageClass: longhorn
 
-  backup:
-    retentionPolicy: "30d"
-    barmanObjectStore:
-      wal:
-        compression: bzip2
-      destinationPath: s3://cnpg/
-      endpointURL: http://minio.database.svc.cluster.local:9000
-      s3Credentials:
-        accessKeyId:
-          name: minio-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: minio-creds
-          key: ACCESS_SECRET_KEY
+  # backup: # no matches for kind "Backup" in version "postgresql.cnpg.io/v1"
+  #   retentionPolicy: "30d"
+  #   barmanObjectStore:
+  #     wal:
+  #       compression: bzip2
+  #     destinationPath: s3://cnpg/
+  #     endpointURL: http://minio.database.svc.cluster.local:9000
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: minio-creds
+  #         key: ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: minio-creds
+  #         key: ACCESS_SECRET_KEY
 
 ---
 apiVersion: v1

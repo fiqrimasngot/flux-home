@@ -18,6 +18,7 @@ spec:
       interval: 15m
   values:
     global:
+      edition: ce
       hosts:
         domain: "code.${SECRET_DOMAIN}"
         gitlab:

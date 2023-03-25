@@ -97,34 +97,34 @@ spec:
     grafana:
       enabled: false
 ---
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: cnpg-gitlab
-  namespace: business
-spec:
-  instances: 1
+# apiVersion: postgresql.cnpg.io/v1
+# kind: Cluster
+# metadata:
+#   name: cnpg-gitlab
+#   namespace: business
+# spec:
+#   instances: 1
 
-  # Example of rolling update strategy:
-  # - unsupervised: automated update of the primary once all
-  #                 replicas have been upgraded (default)
-  # - supervised: requires manual supervision to perform
-  #               the switchover of the primary
-  primaryUpdateStrategy: unsupervised
+#   # Example of rolling update strategy:
+#   # - unsupervised: automated update of the primary once all
+#   #                 replicas have been upgraded (default)
+#   # - supervised: requires manual supervision to perform
+#   #               the switchover of the primary
+#   primaryUpdateStrategy: unsupervised
 
-  # superuserSecret:
-  #   name: superuser-secret
+#   # superuserSecret:
+#   #   name: superuser-secret
 
-  bootstrap:
-    initdb:
-      database: gitlab
-      owner: ${SECRET_GITLAB_PGUSER}
-      secret:
-        name: gitlab-cnpg-secret
+#   bootstrap:
+#     initdb:
+#       database: gitlab
+#       owner: ${SECRET_GITLAB_PGUSER}
+#       secret:
+#         name: gitlab-cnpg-secret
 
-  storage:
-    size: 20Gi
-    storageClass: longhorn
+#   storage:
+#     size: 20Gi
+#     storageClass: longhorn
 
   # backup: # no matches for kind "Backup" in version "postgresql.cnpg.io/v1"
   #   retentionPolicy: "30d"

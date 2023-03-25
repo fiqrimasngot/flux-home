@@ -164,15 +164,15 @@ stringData:
   password: ${SECRET_GITLAB_PGPASSWORD}
 
 ---
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: daily-backup-gitlab
-  namespace: business
-spec:
-  schedule: "@daily"
-  cluster:
-    name: cnpg-gitlab
+# apiVersion: postgresql.cnpg.io/v1
+# kind: ScheduledBackup
+# metadata:
+#   name: daily-backup-gitlab
+#   namespace: business
+# spec:
+#   schedule: "@daily"
+#   cluster:
+#     name: cnpg-gitlab
 
 ---
 # apiVersion: postgresql.cnpg.io/v1

@@ -16,3 +16,5 @@ resources:
   - ./stakater.yaml
   - ./weave-gitops.yaml
   - ./authentik-charts.yaml
+  - ./bjw-s-charts.yaml
+  - ./gitlab-charts.yaml

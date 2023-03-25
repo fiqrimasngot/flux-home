@@ -1,0 +1,109 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: readarr
+  namespace: downloads
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: readarr
+      version: 6.4.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      # renovate: docker-image
+      repository: ghcr.io/onedr0p/readarr-nightly
+      tag: "0.1.4.1596"
+
+    env:
+      TZ: "${TIMEZONE}"
+
+    podSecurityContext:
+      fsGroup: 568
+      runAsUser: 568
+      supplementalGroups:
+        - 65539
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: readarr-config
+      media:
+        enabled: true
+        type: nfs
+        server: ${SECRET_NAS1}
+        path: /mnt/fatguys/Media
+        mountPath: /media
+      ebooks:
+        enabled: true
+        existingClaim: downloads-nfs-ebooks
+        mountPath: /ebooks
+      backup:
+        enabled: true
+        existingClaim: readarr-nfs-backup
+        mountPath: /config/Backups
+
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "nginx"
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+          hajimari.io/enable: "true"
+          hajimari.io/group: "downloads"
+        hosts:
+          - host: &host "readarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+
+      api:
+        enabled: true
+        ingressClassName: "nginx"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hosts:
+          - host: *host
+            paths:
+              - path: /api
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+
+    resources:
+      requests:
+        cpu: 15m
+        memory: 184M
+      limits:
+        memory: 1500Mi
+
+    prometheus:
+      podMonitor:
+        enabled: true
+        interval: 10m
+        scrapeTimeout: 2s
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
+      exporter:
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v1.2.4
+        env:
+          port: 9794
+          additionalMetrics: true
+          unknownQueueItems: true

@@ -25,7 +25,7 @@ spec:
         gitlab:
           name: "code.${SECRET_DOMAIN}"
       ingress:
-        class: nginx-public
+        class: nginx
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/group: "business"

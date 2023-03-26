@@ -12,6 +12,6 @@ resources:
   - ./traefik/ks.yaml
   - ./crowdsec/ks.yaml
   - ./metallb/ks.yaml
-  - wildcard-certificate
+  # - wildcard-certificate
   - opnsense
   - external-svc

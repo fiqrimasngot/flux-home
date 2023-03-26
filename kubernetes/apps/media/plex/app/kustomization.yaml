@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - config-pvc.yaml
   - helm-release.yaml
-  # - externalsecret.yaml
+  # - net-attach.yaml
   # - volsync.yaml
 labels:
   - pairs:
-      app.kubernetes.io/name: sonarr
-      app.kubernetes.io/instance: sonarr
+      app.kubernetes.io/name: plex
+      app.kubernetes.io/instance: plex

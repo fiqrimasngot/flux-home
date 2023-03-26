@@ -1,0 +1,103 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  install:
+    disableWait: true
+    remediation:
+      retries: 100
+  upgrade:
+    remediation:
+      retries: 100
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 15m
+  values:
+    image:
+      repository: ghcr.io/onedr0p/bazarr
+      tag: 1.2.0
+
+    env:
+      TZ: "${TIMEZONE}"
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
+    service:
+      main:
+        ports:
+          http:
+            port: &port 6767
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/group: "business"
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+        hosts:
+          - host: bazarr.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - bazarr.${SECRET_DOMAIN}
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: bazarr-config-0
+      media:
+        enabled: true
+        existingClaim: media-nfs
+        mountPath: /media
+      media-canfail:
+        enabled: true
+        existingClaim: media-nfs-canfail
+        mountPath: /media-canfail
+      backup:
+        enabled: true
+        existingClaim: media-nfs
+        mountPath: /media
+      sub-cleaner:
+        enabled: true
+        type: configMap
+        name: bazarr-sub-cleaner-cm
+        mountPath: /scripts
+        defaultMode: 511
+
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 500m
+      limits:
+        memory: 16Gi
+
+    prometheus:
+      podMonitor:
+        enabled: true
+        interval: 10m
+        scrapeTimeout: 2m
+      volumeMounts:
+        - name: config
+          mountPath: /config
+          readOnly: true

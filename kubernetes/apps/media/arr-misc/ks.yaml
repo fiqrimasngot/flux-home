@@ -3,22 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: cluster-apps-radarr
+  name: cluster-apps-arr-misc
   namespace: flux-system
 spec:
-  # dependsOn:
-  #   - name: cluster-apps-rook-ceph-cluster
-  #   - name: cluster-apps-volsync
-  path: ./kubernetes/apps/media/radarr/app
+  path: ./kubernetes/apps/media/arr-misc/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: radarr
-      namespace: media
   interval: 30m
   retryInterval: 1m
   timeout: 3m

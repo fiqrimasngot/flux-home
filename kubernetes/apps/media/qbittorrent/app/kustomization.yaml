@@ -4,9 +4,10 @@ kind: Kustomization
 resources:
   - config-pvc.yaml
   - helm-release.yaml
-  # - externalsecret.yaml
+  - cron-job-tag-tracker-errors.yaml
+  # - net-attach.yaml
   # - volsync.yaml
 labels:
   - pairs:
-      app.kubernetes.io/name: sonarr
-      app.kubernetes.io/instance: sonarr
+      app.kubernetes.io/name: qbittorrent
+      app.kubernetes.io/instance: qbittorrent

@@ -8,5 +8,5 @@ resources:
   # - volsync.yaml
 labels:
   - pairs:
-      app.kubernetes.io/name: sonarr
-      app.kubernetes.io/instance: sonarr
+      app.kubernetes.io/name: prowlarr
+      app.kubernetes.io/instance: prowlarr

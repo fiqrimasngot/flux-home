@@ -135,12 +135,12 @@ spec:
           # insecure: false
           trustedIPs:
             ## cluster ips
-            - ${NET_NODE_CIDR}
-            - ${NET_POD_CIDR}
-            - ${NET_SVC_CIDR}
-            - ${LB_GATEWAY}
-            - ${LB_INGRESS}
-            - ${LB_AUTH}
+            - ${METALLB_LB_RANGE}
+            - ${METALLB_K8S_GATEWAY_ADDR}
+            - ${METALLB_INGRESS_ADDR}
+            - ${SVC_TRAEFIK_ADDRESS}
+            - ${SVC_GITLAB_ADDR}
+            - ${SVC_QBITTORRENT_ADDR}
             # ## add non-k8s proxies, svcs, etc
         ## Enable the Proxy Protocol header parsing for the entry point
         # proxyProtocol:
@@ -186,7 +186,7 @@ spec:
         metallb.universe.tf/loadBalancerIPs: "${SVC_TRAEFIK_ADDRESS}"
       spec:
         externalTrafficPolicy: Local # preserve client source IP
-      #   loadBalancerIP: "${LB_INGRESS}" # metallb IP reservation for Ingress
+        loadBalancerIP: "${SVC_TRAEFIK_ADDRESS}" # metallb IP reservation for Ingress
 
     rbac:
       enabled: true

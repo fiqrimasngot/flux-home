@@ -7,4 +7,11 @@ resources:
   - ./external-dns/ks.yaml
   - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
+  - ./cloudflared/ks.yaml
+  - ./multus/ks.yaml
+  - ./external-svc/ks.yaml
+  - ./opnsense/ks.yaml
+  - ./traefik/ks.yaml
+  - ./wildcard-certificate/ks.yaml
+  - ./metallb/ks.yaml
   - ./metallb/ks.yaml

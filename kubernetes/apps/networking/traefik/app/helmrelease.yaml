@@ -135,7 +135,6 @@ spec:
           # insecure: false
           trustedIPs:
             ## cluster ips
-            - ${METALLB_LB_RANGE}
             - ${METALLB_K8S_GATEWAY_ADDR}
             - ${METALLB_INGRESS_ADDR}
             - ${SVC_TRAEFIK_ADDRESS}

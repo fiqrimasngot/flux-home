@@ -15,6 +15,7 @@ resources:
   - ./metallb.yaml
   - ./metrics-server.yaml
   - ./stakater.yaml
+  - ./crowdsec-charts.yaml
   - ./weave-gitops.yaml
   - ./authentik-charts.yaml
   - ./k8s-at-home-charts.yaml

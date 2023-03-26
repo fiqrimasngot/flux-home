@@ -48,6 +48,7 @@ spec:
 
     ingress:
       main:
+        primary: true
         enabled: true
         ingressClassName: nginx
         annotations:
@@ -84,15 +85,10 @@ spec:
         enabled: true
         existingClaim: media-nfs-canfail
         mountPath: /media-canfail
-      # backup:
-      #   enabled: true
-      #   type: custom
-      #   volumeSpec:
-      #     nfs:
-      #       server: "${TRUENAS_VM_ADDRESS}"
-      #       path: /mnt/tank/backups/softwarrself/sonarr
-      #   mountPath: /config/Backups
-      #   readOnly: false
+      backup:
+        enabled: true
+        existingClaim: media-nfs
+        mountPath: /media
 
     resources:
       requests:
@@ -129,3 +125,44 @@ spec:
   resources:
     requests:
       storage: 15Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-cephfs
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: longhorn
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-nfs-canfail
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-nfs
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 55Gi

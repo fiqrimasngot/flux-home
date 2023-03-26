@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.gitlab.io
       chart: gitlab
-      version: 6.10.0
+      version: 15.8.3
       sourceRef:
         kind: HelmRepository
         name: gitlab-charts
@@ -36,9 +36,9 @@ spec:
         tls:
           enabled: false
 
-      initialRootPassword:
-        secret: gitlab-initial-root-password
-        key: password
+      # initialRootPassword:
+      #   secret: gitlab-initial-root-password
+      #   key: password
       time_zone: ${TIMEZONE}
       email:
         from: "no-reply@gitlab.${SECRET_DOMAIN}"

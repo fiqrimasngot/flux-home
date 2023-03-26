@@ -5,8 +5,8 @@ metadata:
   name: cluster-apps-crowdsec
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: apps-rook-ceph-cluster
+  # dependsOn:
+  #   - name: apps-rook-ceph-cluster
   path: ./kubernetes/apps/networking/crowdsec/app
   prune: true
   sourceRef:

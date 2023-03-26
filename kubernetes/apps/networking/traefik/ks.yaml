@@ -5,10 +5,10 @@ metadata:
   name: cluster-apps-traefik
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: apps-cert-manager-certs
-    - name: apps-metallb-system
-    - name: apps-metallb-system-config
+  # dependsOn:
+  #   - name: apps-cert-manager-certs
+  #   - name: apps-metallb-system
+  #   - name: apps-metallb-system-config
   path: ./kubernetes/apps/networking/traefik/app
   prune: true
   sourceRef:

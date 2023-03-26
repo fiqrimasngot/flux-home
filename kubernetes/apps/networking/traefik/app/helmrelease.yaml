@@ -173,7 +173,7 @@ spec:
     tlsStore:
       default:
         defaultCertificate:
-          secretName: "${SECRET_DOMAIN/./-}production-tls"
+          secretName: "${SECRET_DOMAIN/./-}-production-tls"
 
     service:
       enabled: true
@@ -181,8 +181,8 @@ spec:
       single: true
       type: LoadBalancer
       ### pick either metallb annotation OR spec.loadBalancerIP
-      annotations:
-        metallb.universe.tf/loadBalancerIPs: "${SVC_TRAEFIK_ADDRESS}"
+      # annotations:
+      #   metallb.universe.tf/loadBalancerIPs: "${SVC_TRAEFIK_ADDRESS}"
       spec:
         externalTrafficPolicy: Local # preserve client source IP
         loadBalancerIP: "${SVC_TRAEFIK_ADDRESS}" # metallb IP reservation for Ingress

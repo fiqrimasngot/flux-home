@@ -19,4 +19,5 @@ resources:
   - ./authentik-charts.yaml
   - ./k8s-at-home-charts.yaml
   - ./bjw-s-charts.yaml
+  - ./traefik-charts.yaml
   - ./gitlab-charts.yaml

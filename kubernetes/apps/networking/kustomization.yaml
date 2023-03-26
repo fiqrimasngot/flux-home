@@ -10,6 +10,7 @@ resources:
   - ./cloudflared/ks.yaml
   - ./multus/ks.yaml
   - ./traefik/ks.yaml
+  - ./crowdsec/ks.yaml
   - ./metallb/ks.yaml
   - wildcard-certificate
   - opnsense

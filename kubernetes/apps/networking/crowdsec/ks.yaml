@@ -2,14 +2,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: cluster-apps-traefik
+  name: cluster-apps-crowdsec
   namespace: flux-system
 spec:
   dependsOn:
-    - name: apps-cert-manager-certs
-    - name: apps-metallb-system
-    - name: apps-metallb-system-config
-  path: ./kubernetes/apps/networking/traefik/app
+    - name: apps-rook-ceph-cluster
+  path: ./kubernetes/apps/networking/crowdsec/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -17,7 +15,7 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: traefik
+      name: crowdsec
       namespace: networking
   interval: 30m
   retryInterval: 1m
@@ -26,16 +24,22 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: cluster-apps-traefik-addons
+  name: cluster-apps-crowdsec-traefik-bouncer
   namespace: flux-system
 spec:
   dependsOn:
+    - name: cluster-apps-crowdsec
     - name: cluster-apps-traefik
-  path: ./kubernetes/apps/networking/traefik/add-ons
+  path: ./kubernetes/apps/networking/crowdsec/traefik-bouncer
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: crowdsec-traefik-bouncer
+      namespace: networking
   interval: 30m
   retryInterval: 1m
   timeout: 3m

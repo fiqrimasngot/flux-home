@@ -19,7 +19,7 @@ metadata:
   namespace: networking
 spec:
   ipWhiteList:
-    ipStrategy:
+    # ipStrategy:
       # ## scan the X-Forwarded-For header and take the IP located at the depth position (1-indexed, from the right)
       # depth: 1
       ## scan the X-Forwarded-For header and select the first IP not in the list.

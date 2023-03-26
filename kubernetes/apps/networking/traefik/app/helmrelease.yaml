@@ -173,7 +173,7 @@ spec:
     tlsStore:
       default:
         defaultCertificate:
-          secretName: "${SECRET_DOMAIN/./-}-tls"
+          secretName: "${SECRET_DOMAIN/./-}production-tls"
 
     service:
       enabled: true

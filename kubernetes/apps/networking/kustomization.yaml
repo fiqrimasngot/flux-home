@@ -14,4 +14,4 @@ resources:
   - ./metallb/ks.yaml
   # - wildcard-certificate
   - opnsense
-  - external-svc
+  # - external-svc
